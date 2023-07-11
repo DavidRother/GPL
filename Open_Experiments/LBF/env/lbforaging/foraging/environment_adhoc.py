@@ -870,9 +870,11 @@ class ForagingEnv(Env):
         # and do movements for non colliding players
 
         for k, v in collisions.items():
-            if len(v) > 1:  # make sure no more than an player will arrive at location
-                continue
-            v[0].position = k
+            # if len(v) > 1:  # make sure no more than an player will arrive at location
+            #     continue
+            for play in v:
+                play.position = k
+            # v[0].position = k
 
         # finally process the loadings:
         while loading_players:

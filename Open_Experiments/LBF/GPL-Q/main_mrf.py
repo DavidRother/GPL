@@ -56,7 +56,7 @@ if __name__ == '__main__':
         json.dump(args, json_file)
 
     # Initialize the GPL-Q Agent
-    agent = MRFAgent(args=args, writer=writer, added_u_dim = 9)
+    agent = MRFAgent(args=args, device="cpu", writer=writer, added_u_dim=9)
 
     # Define the training environment
     num_players_train = args['num_players_train']

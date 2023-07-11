@@ -41,6 +41,11 @@ args = parser.parse_args()
 if __name__ == '__main__':
 
     args = vars(args)
+    args["lr"] = 0.00025
+    args["weight_predict"] = 1.0
+    args["pair_comp"] = "bmm"
+    args["seed"] = 0
+    args["info"] = "avg edges"
     today = date.today()
     d1 = today.strftime("%d_%m_%Y")
 
