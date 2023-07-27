@@ -16,6 +16,7 @@ def soft_copy(target_net, source_net, tau=0.001):
     for target_param, param in zip(target_net.parameters(), source_net.parameters()):
         target_param.data.copy_(tau*param + (1-tau)*target_param)
 
+
 class MRFAgent(object):
     def __init__(self, args=None, optimizer=None, device=None, writer=None,
                  epsilon=1.0, added_u_dim=0, mode="train"):
@@ -29,7 +30,7 @@ class MRFAgent(object):
 
         # Initialize neural network dimensions.
         self.dim_lstm_out = 100
-        self.device = device
+        self.device = 'cpu'
         if self.device is None:
             self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
         self.dqn_net = LSTMMRF(3, self.added_u_dim, 100, 100, 100, 70,

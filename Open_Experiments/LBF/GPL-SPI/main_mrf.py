@@ -41,11 +41,6 @@ args = parser.parse_args()
 if __name__ == '__main__':
 
     args = vars(args)
-    args["lr"] = 0.00025
-    args["weight_predict"] = 1.0
-    args["pair_comp"] = "bmm"
-    args["seed"] = 0
-    args["info"] = "avg edges"
     today = date.today()
     d1 = today.strftime("%d_%m_%Y")
 
@@ -66,7 +61,7 @@ if __name__ == '__main__':
         json.dump(args, json_file)
 
     # Initialize the GPL-SPI Agent
-    agent = MRFAgent(args=args, writer=writer, added_u_dim = 9, temp=args["init_temp"])
+    agent = MRFAgent(args=args, device="cpu", writer=writer, added_u_dim = 9, temp=args["init_temp"])
 
     # Define the training environment
     num_players_train = args['num_players_train']

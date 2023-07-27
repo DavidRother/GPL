@@ -13,7 +13,7 @@ import os
 import json
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--lr', type=float, default=1e-3, help='Learning rate.')
+parser.add_argument('--lr', type=float, default=0.00025, help='Learning rate.')
 parser.add_argument('--gamma', type=float, default=0.99, help='Discount_rate.')
 parser.add_argument('--max_num_steps', type=int, default=400000, help="Number of episodes for training.")
 parser.add_argument('--eps_length', type=int, default=200, help="Episode length for training.")
@@ -27,7 +27,7 @@ parser.add_argument('--save_dir', type=str, default='parameters', help="Director
 parser.add_argument('--num_players_train', type=int, default=3, help="Maximum number of players for training.")
 parser.add_argument('--num_players_test', type=int, default=5, help="Maximum number of players for testing.")
 parser.add_argument('--pair_comp', type=str, default='bmm', help="Pairwise factor computation method. Use bmm for low rank factorization.")
-parser.add_argument('--info', type=str, default="", help="Additional info.")
+parser.add_argument('--info', type=str, default="avg edges", help="Additional info.")
 parser.add_argument('--seed', type=int, default=0, help="Training seed.")
 parser.add_argument('--eval_init_seed', type=int, default=2500, help="Evaluation seed")
 
@@ -56,7 +56,7 @@ if __name__ == '__main__':
         json.dump(args, json_file)
 
     # Initialize the GPL-Q Agent
-    agent = MRFAgent(args=args, device="cpu", writer=writer, added_u_dim=9)
+    agent = MRFAgent(args=args, writer=writer, added_u_dim = 9)
 
     # Define the training environment
     num_players_train = args['num_players_train']
@@ -110,7 +110,7 @@ if __name__ == '__main__':
                 per_worker_rew[idx] = 0
 
     avg_total_rewards = (sum(avgs) + 0.0) / len(avgs)
-    print("Finished eval with rewards " + str(avg_total_rewards))
+    print("Finished eval in training environment with rewards " + str(avg_total_rewards))
     env_eval.close()
     writer.add_scalar('Rewards/train_set', sum(avgs) / len(avgs), 0)
 
@@ -139,7 +139,7 @@ if __name__ == '__main__':
                 per_worker_rew[idx] = 0
 
     avg_total_rewards = (sum(avgs) + 0.0) / len(avgs)
-    print("Finished eval with rewards " + str(avg_total_rewards))
+    print("Finished eval in Test environment with rewards " + str(avg_total_rewards))
     env_eval.close()
     writer.add_scalar('Rewards/eval', sum(avgs) / len(avgs), 0)
 
@@ -211,6 +211,7 @@ if __name__ == '__main__':
                         per_worker_rew[idx] = 0
 
             avg_total_rewards = (sum(avgs) + 0.0) / len(avgs)
+            print(avgs)
             print("Finished eval with rewards " + str(avg_total_rewards))
             env_eval.close()
             writer.add_scalar('Rewards/train_set', sum(avgs) / len(avgs),
@@ -242,7 +243,8 @@ if __name__ == '__main__':
                         per_worker_rew[idx] = 0
 
             avg_total_rewards = (sum(avgs) + 0.0) / len(avgs)
-            print("Finished eval with rewards " + str(avg_total_rewards))
+            print(avgs)
+            print("Finished eval in Test environment with rewards " + str(avg_total_rewards))
             env_eval.close()
             writer.add_scalar('Rewards/eval', sum(avgs) / len(avgs),
                               (ep_num + 1) // args['saving_frequency'])

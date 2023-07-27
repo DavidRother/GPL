@@ -1,6 +1,0 @@
-import numpy as np
-
-
-def softmax(x):
-    e_x = np.exp(x - np.max(x))  # subtract max to stabilize
-    return e_x / e_x.sum(axis=0)
